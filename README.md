@@ -1,2 +1,4 @@
 # LTI_TL2
 O objetivo principal deste trabalho laboratorial é conceber e implementar uma aplicação (app) que sirva de frontend para a gestão de recursos disponibilizados através do orquestrador Kubernetes. 
+
+O Docker é uma ferramenta que permite a criação de uma forma fácil de uma solução distribuída para qualquer aplicação. O objetivo é esta capacidade ser garantida para soluções de grande escala e em qualquer ecossistema.   Neste âmbito, uma camada de orquestração tem de ser utilizada de forma a coordenar de uma forma inteligente um conjunto de servidores e containers, manter o registo do estado atual de todos os servidores e os recursos associados, e manter um inventário de todos os containers a correr. Das várias soluções para a orquestração destes recursos, no âmbito da UC de LTI vamos nos debruçar no Kubernetes.
