@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Documentos\\Universidade\\LTI\\LTI-TL2\\LTI_TL2\\kubernets\\kubernets\\kubernets.csproj": {}
+    "C:\\Users\\joaom\\Documents\\GitHub\\LTI_TL2\\kubernets\\kubernets\\kubernets.csproj": {}
   },
   "projects": {
-    "D:\\Documentos\\Universidade\\LTI\\LTI-TL2\\LTI_TL2\\kubernets\\kubernets\\kubernets.csproj": {
+    "C:\\Users\\joaom\\Documents\\GitHub\\LTI_TL2\\kubernets\\kubernets\\kubernets.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Documentos\\Universidade\\LTI\\LTI-TL2\\LTI_TL2\\kubernets\\kubernets\\kubernets.csproj",
+        "projectUniqueName": "C:\\Users\\joaom\\Documents\\GitHub\\LTI_TL2\\kubernets\\kubernets\\kubernets.csproj",
         "projectName": "kubernets",
-        "projectPath": "D:\\Documentos\\Universidade\\LTI\\LTI-TL2\\LTI_TL2\\kubernets\\kubernets\\kubernets.csproj",
-        "packagesPath": "C:\\Users\\migue\\.nuget\\packages\\",
-        "outputPath": "D:\\Documentos\\Universidade\\LTI\\LTI-TL2\\LTI_TL2\\kubernets\\kubernets\\obj\\",
+        "projectPath": "C:\\Users\\joaom\\Documents\\GitHub\\LTI_TL2\\kubernets\\kubernets\\kubernets.csproj",
+        "packagesPath": "C:\\Users\\joaom\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\joaom\\Documents\\GitHub\\LTI_TL2\\kubernets\\kubernets\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\migue\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\joaom\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -49,6 +49,16 @@
       "frameworks": {
         "net8.0-windows7.0": {
           "targetAlias": "net8.0-windows",
+          "dependencies": {
+            "CSharpMarkup.WinUI.LiveChartsCore.SkiaSharpView": {
+              "target": "Package",
+              "version": "[3.0.3, )"
+            },
+            "WinForms.DataVisualization": {
+              "target": "Package",
+              "version": "[1.10.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

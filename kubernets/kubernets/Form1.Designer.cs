@@ -1,6 +1,6 @@
 ﻿namespace kubernets
 {
-    partial class Form1
+    partial class Form1 : System.Windows.Forms.Form // Ensure Form1 inherits from Form
     {
         /// <summary>
         ///  Required designer variable.
@@ -23,8 +23,8 @@
         #region Windows Form Designer generated code
 
         /// <summary>
-        ///  Required method for Designer support - do not modify
-        ///  the contents of this method with the code editor.
+        ///  Required method for Designer support - do not modify the
+        ///  contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
         {
