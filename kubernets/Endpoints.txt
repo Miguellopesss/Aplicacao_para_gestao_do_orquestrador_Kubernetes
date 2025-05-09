@@ -1,0 +1,170 @@
+http://192.168.61.132:8001/api/v1/namespaces/container-registry/pods
+qwertyuiopasdfghjklçzxcvbnm
+endpoints
+_____________________________________________
+Metricas
+Listar metricas
+http://192.168.6.136:8001/apis/metrics.k8s.io/v1beta1/nodes
+_____________________________________________
+NODES
+listar nodes
+IP:Porto/api/v1/nodes
+_____________________________________________
+NAMESPACES
+
+
+listar namespaces
+IP:Porto/api/v1/namespaces
+
+listar namespaces específico
+IP:Porto/api/v1/namespaces/{namespace}
+
+Criar nameSpace
+POST http://" + Ip + "/api/v1/namespaces
+var namespaceObj = new
+{
+    apiVersion = "v1",
+    kind = "Namespace",
+    metadata = new
+    {
+        name = namespaceName
+    }
+}
+
+Apagar um namespace
+DELETE IP:Porto/api/v1/namespaces/{name}
+
+_____________________________________________
+PODS
+
+listar pods de um namespace específico
+IP:Porto/api/v1/namespaces/{namespace}/pods
+
+listar pod específico de um namespace específico
+IP:Porto/api/v1/namespaces/{namespace}/pods/{pod}
+
+listar pods de todos os namespaces
+IP:Porto/api/v1/pods
+
+Criar um pod
+POST IP:Porto/api/v1/namespaces/{namespace}/pods
+
+apiVersion: v1
+kind: Pod
+metadata:
+ name: httpd
+spec:
+ containers:
+  - name: httpd
+    image: httpd:latest
+    ports:
+    -  containerPort: 80
+
+
+^ Em YAML
+
+Apagar um pod
+DELETE IP:Porto/api/v1/namespaces/{namespace}/pods/{name}
+
+
+----------------------------------------------
+DEPLOYMENTS
+
+Listar todos os deployments
+IP:Porto/apis/apps/v1/deployments
+
+Listar todos os deployments de um namespace
+IP:Porto/apis/apps/v1/namespaces/{namespace}/deployments
+
+Listar um deployment de um namespace
+IP:Porto/apis/apps/v1/namespaces/{namespace}/deployments/{name}
+
+Criar um deployment
+POST IP:Porto/apis/apps/v1/namespaces/{namespace}/deployments
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-example
+spec:
+  replicas: 3
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.14
+        ports:
+        - containerPort: 80
+
+
+^ Em YAML
+
+Apagar um deployment
+DELETE IP:Porto/apis/apps/v1/namespaces/{namespace}/deployments/{name}
+
+------------------------------------------------
+INGRESS
+
+Listar todos os ingresses
+IP:Porto/apis/networking.k8s.io/v1/ingresses
+
+Listar todos os ingresses de um namespace
+IP:Porto/apis/networking.k8s.io/v1/namespaces/{namespace}/ingresses
+
+Listar um ingress de um namespace
+IP:Porto/apis/networking.k8s.io/v1/namespaces/{namespace}/ingresses/{name}
+
+Criar um ingress
+
+POST IP:Porto/apis/networking.k8s.io/v1/namespaces/{namespace}/ingresses
+
+
+Apagar um ingress
+DELETE
+IP:Porto/apis/networking.k8s.io/v1/namespaces/{namespace}/ingresses/{name}
+
+----------------------------------------------------
+SERVICE
+
+Listar todos os services
+IP:Porto/api/v1/services
+
+Listar todos os services de um namespace
+IP:Porto/api/v1/namespaces/{namespace}/services
+
+Listar um service de um namespace
+IP:Porto/api/v1/namespaces/{namespace}/services/{name}
+
+Criar um service
+POST IP:Porto/api/v1/namespaces/{namespace}/services
+
+apiVersion: v1
+metadata:
+  name: service-example
+spec:
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+  selector:
+      app: nginx
+  type: LoadBalancer
+
+^ Em YAML
+
+
+
+Apagar um service
+DELETE IP:Porto/api/v1/namespaces/{namespace}/services/{name}
+
+
+
+
+

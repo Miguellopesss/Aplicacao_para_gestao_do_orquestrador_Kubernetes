@@ -1,5 +1,6 @@
 using System;
 using System.Windows.Forms;
+using kubernets;
 
 namespace K8sDashboard
 {
@@ -9,7 +10,7 @@ namespace K8sDashboard
         static void Main()
         {
             Application.EnableVisualStyles();
-            Application.Run(new Form1());
+            Application.Run(new Login());
         }
     }
 }

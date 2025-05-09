@@ -129,7 +129,7 @@
             buttonToggleToken.BackgroundImageLayout = ImageLayout.Zoom;
             buttonToggleToken.Location = new Point(304, 324);
             buttonToggleToken.Name = "buttonToggleToken";
-            buttonToggleToken.Size = new Size(27, 30);
+            buttonToggleToken.Size = new Size(27, 27);
             buttonToggleToken.TabIndex = 8;
             buttonToggleToken.Click += buttonToggleToken_Click;
             // 

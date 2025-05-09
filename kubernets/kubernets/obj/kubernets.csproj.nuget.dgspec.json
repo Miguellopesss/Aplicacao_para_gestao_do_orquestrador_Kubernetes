@@ -54,6 +54,14 @@
               "target": "Package",
               "version": "[3.0.3, )"
             },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[9.0.4, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[9.0.4, )"
+            },
             "WinForms.DataVisualization": {
               "target": "Package",
               "version": "[1.10.0, )"

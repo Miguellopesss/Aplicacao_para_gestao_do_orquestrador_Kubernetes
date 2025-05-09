@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("kubernets")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3d426de310be3ce216dbac93781f6446dffa5673")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d8442b142fbb760f43b78aedc79cf3b87ad08d37")]
 [assembly: System.Reflection.AssemblyProductAttribute("kubernets")]
 [assembly: System.Reflection.AssemblyTitleAttribute("kubernets")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

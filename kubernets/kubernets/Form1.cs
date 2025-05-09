@@ -9,6 +9,8 @@ using System.Windows.Forms.DataVisualization.Charting;
 using System.Globalization;
 using System.Linq;
 using kubernets;
+using System.Net;
+using Windows.Services.Maps;
 
 namespace K8sDashboard
 {
@@ -21,13 +23,20 @@ namespace K8sDashboard
         private Dictionary<string, List<(string Name, string Phase)>> podsPerNode = new();
 
         private Dictionary<string, (int CpuMilli, int MemMi)> capacityPerNode = new();
+        private string Endpoint = string.Empty;
+        private string Token = string.Empty;
+        private Dictionary<string, Panel> nodePanels = new();
 
-        public Form1()
+        public Form1(string ipAddress, string token)
         {
-            this.Text = "Kubernetes";
+
+            this.Text = $"Dashboard - IP: {ipAddress}";
             this.Width = 1350;
             this.Height = 800;
             AutoScroll = true;
+            Endpoint = $"https://{ipAddress}:6443/api";
+            Token = token;
+            this.StartPosition = FormStartPosition.CenterScreen;
 
             // --- 1) Botão Configurações no topo ---
             var btnConfig = new Button
@@ -39,8 +48,12 @@ namespace K8sDashboard
             };
             btnConfig.Click += (s, e) =>
             {
-                using var f2 = new Form2();
-                f2.ShowDialog();
+                this.Hide(); // Esconde o Form1
+
+                using var f2 = new Form2(ipAddress,token);
+                f2.ShowDialog(); // Abre Form2 como modal
+
+                this.Show(); // Reexibe Form1 depois que Form2 for fechado
             };
             Controls.Add(btnConfig);
 
@@ -51,8 +64,34 @@ namespace K8sDashboard
                 Padding = new Padding(0, btnConfig.Bottom + 10, 0, 0),
                 AutoScroll = true,
                 FlowDirection = FlowDirection.TopDown,
-                WrapContents = false
+                WrapContents = false,
+                BackgroundImage = kubernets.Properties.Resources.Login,
+                BackgroundImageLayout = ImageLayout.Stretch
             };
+
+
+            panelContainer.ControlAdded += (s, e) =>
+            {
+                if (e.Control != null && panelContainer != null)
+                {
+                    e.Control.Margin = new Padding((panelContainer.ClientSize.Width - e.Control.Width) / 2, 10, 0, 10);
+                }
+            };
+
+            panelContainer.Resize += (s, e) =>
+            {
+                if (panelContainer != null)
+                {
+                    foreach (Control ctrl in panelContainer.Controls)
+                    {
+                        if (ctrl != null)
+                        {
+                            ctrl.Margin = new Padding((panelContainer.ClientSize.Width - ctrl.Width) / 2, 10, 0, 10);
+                        }
+                    }
+                }
+            };
+           
             Controls.Add(panelContainer);
 
             refreshTimer = new System.Windows.Forms.Timer { Interval = 2000 };
@@ -60,16 +99,26 @@ namespace K8sDashboard
             refreshTimer.Start();
 
             Load += async (s, e) => await LoadKubernetesData();
+            var handler = new HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback = (message, cert, chain, sslErrors) => true
+            };
+
+            httpClient = new HttpClient(handler);
+            httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {Token}");
+
+           
         }
 
         private async Task LoadKubernetesData()
         {
             try
             {
-                string nodesUrl = "http://192.168.48.137:8001/api/v1/nodes";
-                string nodeMetricsUrl = "http://192.168.48.137:8001/apis/metrics.k8s.io/v1beta1/nodes";
-                string podsUrl = "http://192.168.48.137:8001/api/v1/pods";
+                string nodesUrl = $"{Endpoint}/v1/nodes";
+                string nodeMetricsUrl = $"{Endpoint}s/metrics.k8s.io/v1beta1/nodes";
+                string podsUrl = $"{Endpoint}/v1/pods";
 
+                // Requisições HTTP com o httpClient configurado
                 var nodesJson = await httpClient.GetStringAsync(nodesUrl);
                 var metricsJson = await httpClient.GetStringAsync(nodeMetricsUrl);
                 var podListJson = await httpClient.GetStringAsync(podsUrl);
@@ -126,82 +175,52 @@ namespace K8sDashboard
 
         private void CreatePanelsPerNode(JsonDocument metricsDoc, JsonDocument nodesDoc)
         {
-            panelContainer.Controls.Clear();
-
             foreach (var metricNode in metricsDoc.RootElement.GetProperty("items").EnumerateArray())
             {
                 string? nodeName = metricNode.GetProperty("metadata").GetProperty("name").GetString();
+                if (string.IsNullOrEmpty(nodeName)) continue;
+
                 var usage = metricNode.GetProperty("usage");
-
-
-
                 string? cpuU = usage.GetProperty("cpu").GetString();
-                if (cpuU == null)
-                {
-                    throw new InvalidOperationException("O valor de 'cpu' não pode ser nulo.");
-                }
+                if (string.IsNullOrEmpty(cpuU)) continue;
 
-                if (cpuU == null)
+                long cpuUsageNano = cpuU switch
                 {
-                    throw new InvalidOperationException("O valor de 'cpu' não pode ser nulo.");
-                }
-                long cpuUsageNano = 0;
-                if (cpuU.EndsWith("n"))
-                {
-                    cpuUsageNano = long.Parse(cpuU[..^1], CultureInfo.InvariantCulture);
-                }
-                else if (cpuU.EndsWith("u"))
-                {
-                    cpuUsageNano = long.Parse(cpuU[..^1], CultureInfo.InvariantCulture) * 1_000L;
-                }
-                else if (cpuU.EndsWith("m"))
-                {
-                    cpuUsageNano = long.Parse(cpuU[..^1], CultureInfo.InvariantCulture) * 1_000_000L;
-                }
-                else
-                {
-                    cpuUsageNano = (long)(double.Parse(cpuU, CultureInfo.InvariantCulture) * 1_000_000_000L);
-                }
-
+                    string s when s.EndsWith("n") => long.Parse(s[..^1], CultureInfo.InvariantCulture),
+                    string s when s.EndsWith("u") => long.Parse(s[..^1], CultureInfo.InvariantCulture) * 1_000L,
+                    string s when s.EndsWith("m") => long.Parse(s[..^1], CultureInfo.InvariantCulture) * 1_000_000L,
+                    _ => (long)(double.Parse(cpuU, CultureInfo.InvariantCulture) * 1_000_000_000L)
+                };
 
                 string memU = usage.GetProperty("memory").GetString() ?? string.Empty;
-                int memUsageMi = 0;
-                if (memU.EndsWith("Ki"))
+                int memUsageMi = memU switch
                 {
-                    memUsageMi = (int)(long.Parse(memU[..^2], CultureInfo.InvariantCulture) / 1024);
-                }
-                else if (memU.EndsWith("Mi"))
-                {
-                    memUsageMi = int.Parse(memU[..^2], CultureInfo.InvariantCulture);
-                }
-                else if (memU.EndsWith("Gi"))
-                {
-                    memUsageMi = int.Parse(memU[..^2], CultureInfo.InvariantCulture) * 1024;
-                }
-                else
-                {
-                    memUsageMi = (int)(long.Parse(memU, CultureInfo.InvariantCulture) / (1024 * 1024));
-                }
+                    string s when s.EndsWith("Ki") => (int)(long.Parse(s[..^2], CultureInfo.InvariantCulture) / 1024),
+                    string s when s.EndsWith("Mi") => int.Parse(s[..^2], CultureInfo.InvariantCulture),
+                    string s when s.EndsWith("Gi") => int.Parse(s[..^2], CultureInfo.InvariantCulture) * 1024,
+                    _ => (int)(long.Parse(memU, CultureInfo.InvariantCulture) / (1024 * 1024))
+                };
 
-                if (!string.IsNullOrEmpty(nodeName) && capacityPerNode.TryGetValue(nodeName, out var cap))
+                if (!capacityPerNode.TryGetValue(nodeName, out var cap)) continue;
+
+                long cpuCapNano = cap.CpuMilli * 1_000_000L;
+                int memCapMi = cap.MemMi;
+
+                int cpuPct = cpuCapNano > 0 ? (int)Math.Round((double)cpuUsageNano / cpuCapNano * 100) : 0;
+                int memPct = memCapMi > 0 ? (int)Math.Round((double)memUsageMi / memCapMi * 100) : 0;
+
+                var pods = podsPerNode.ContainsKey(nodeName) ? podsPerNode[nodeName] : new List<(string, string)>();
+                int runningCount = pods.Count(p => p.Item2 == "Running");
+                int succeededCount = pods.Count(p => p.Item2 == "Succeeded");
+
+                if (!nodePanels.ContainsKey(nodeName))
                 {
-                    long cpuCapNano = cap.CpuMilli * 1_000_000L;
-                    int memCapMi = cap.MemMi;
-
-                    int cpuPct = cpuCapNano > 0
-                        ? (int)Math.Round((double)cpuUsageNano / cpuCapNano * 100)
-                        : 0;
-                    int memPct = memCapMi > 0
-                        ? (int)Math.Round((double)memUsageMi / memCapMi * 100)
-                        : 0;
-
-                    var pods = podsPerNode.ContainsKey(nodeName) ? podsPerNode[nodeName] : new List<(string, string)>();
-                    int runningCount = pods.Count(p => p.Item2 == "Running");
-                    int succeededCount = pods.Count(p => p.Item2 == "Succeeded");
-
+                    // Encontra o node no JSON dos nodes
                     var nodeElem = nodesDoc.RootElement.GetProperty("items")
                         .EnumerateArray()
-                        .First(n => n.GetProperty("metadata").GetProperty("name").GetString() == nodeName);
+                        .FirstOrDefault(n => n.GetProperty("metadata").GetProperty("name").GetString() == nodeName);
+
+                    if (nodeElem.ValueKind == JsonValueKind.Undefined) continue;
 
                     var conds = nodeElem.GetProperty("status").GetProperty("conditions").EnumerateArray();
                     var readyCond = conds.First(c => c.GetProperty("type").GetString() == "Ready");
@@ -209,41 +228,35 @@ namespace K8sDashboard
                     string? internalIP = nodeElem.GetProperty("status").GetProperty("addresses")
                          .EnumerateArray()
                          .FirstOrDefault(a => a.GetProperty("type").GetString() == "InternalIP")
-                         .GetProperty("address").GetString();
+                         .GetProperty("address").GetString() ?? "N/A";
 
-                    if (internalIP == null)
-                    {
-                        throw new InvalidOperationException("O endereço IP interno não pode ser nulo.");
-                    }
+                    string? kubeletVer = nodeElem.GetProperty("status").GetProperty("nodeInfo").GetProperty("kubeletVersion").GetString() ?? "Desconhecido";
+                    string? creationTs = nodeElem.GetProperty("metadata").GetProperty("creationTimestamp").GetString() ?? "Desconhecido";
 
-                    string? kubeletVer = nodeElem.GetProperty("status").GetProperty("nodeInfo").GetProperty("kubeletVersion").GetString();
-                    if (kubeletVer == null)
-                    {
-                        kubeletVer = "Desconhecido";
-                    }
-                    string? creationTs = nodeElem.GetProperty("metadata").GetProperty("creationTimestamp").GetString();
-                    if (creationTs == null)
-                    {
-                        creationTs = "Desconhecido";
-                    }
+                    var panel = CreateNodePanel(nodeName, cpuPct, memPct, runningCount, succeededCount,
+                                                status, "", internalIP, kubeletVer, creationTs);
 
-                    var panel = CreateNodePanel(
-                        nodeName,
-                        cpuPct, memPct,
-                        runningCount, succeededCount,
-                        status, string.Empty,
-                        internalIP, kubeletVer,
-                        creationTs
-                    );
-
+                    nodePanels[nodeName] = panel;
                     panelContainer.Controls.Add(panel);
                 }
                 else
                 {
+                    var panel = nodePanels[nodeName];
 
-                    throw new InvalidOperationException("O nome do node é nulo ou não encontrado no dicionário.");
+                    // Atualizar gráficos
+                    var charts = panel.Controls.OfType<Chart>().ToList();
+                    if (charts.Count >= 3)
+                    {
+                        SetupPercentChart(charts[0], "CPU (%)", cpuPct);
+                        SetupPercentChart(charts[1], "Memória (%)", memPct);
+
+                        var pieSeries = charts[2].Series[0];
+                        pieSeries.Points.Clear();
+                        pieSeries.Points.AddXY("Running", runningCount);
+                        if (succeededCount > 0)
+                            pieSeries.Points.AddXY("Succeeded", succeededCount);
+                    }
                 }
-
             }
         }
 
@@ -261,9 +274,8 @@ namespace K8sDashboard
             {
                 Width = 1300,
                 Height = 330,
-                BorderStyle = BorderStyle.FixedSingle,
                 Margin = new Padding(10),
-                BackColor = System.Drawing.Color.WhiteSmoke
+                BackColor = System.Drawing.Color.Transparent
             };
 
 
@@ -273,7 +285,8 @@ namespace K8sDashboard
                 Font = new System.Drawing.Font("Segoe UI", 14, System.Drawing.FontStyle.Bold),
                 Left = 10,
                 Top = 10,
-                Width = 800
+                Width = 800,
+                ForeColor = System.Drawing.Color.White
             };
             panel.Controls.Add(labelTitle);
 
@@ -285,7 +298,8 @@ namespace K8sDashboard
                 Top = 50,
                 Width = 250,
                 Height = 180,
-                Font = new System.Drawing.Font("Segoe UI", 10)
+                Font = new System.Drawing.Font("Segoe UI", 10),
+                ForeColor = System.Drawing.Color.White
             };
             var lbInfo = new ListBox
             {
@@ -385,19 +399,6 @@ namespace K8sDashboard
             });
 
             chart.BackColor = System.Drawing.Color.White;
-        }
-
-        private void InitializeComponent()
-        {
-            SuspendLayout();
-            // 
-            // Form1
-            // 
-            BackColor = SystemColors.Control;
-            ClientSize = new Size(282, 253);
-            Name = "Form1";
-            ResumeLayout(false);
-
         }
     }
 }
