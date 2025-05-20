@@ -45,6 +45,10 @@
             listBox1 = new ListBox();
             label2 = new Label();
             tabPage3 = new TabPage();
+            label9 = new Label();
+            label8 = new Label();
+            textBoxPort = new TextBox();
+            textBoxImage = new TextBox();
             label7 = new Label();
             label6 = new Label();
             comboBox1 = new ComboBox();
@@ -56,15 +60,44 @@
             listBox2 = new ListBox();
             label5 = new Label();
             tabPage4 = new TabPage();
+            button7 = new Button();
+            label16 = new Label();
+            numericUpDown1 = new NumericUpDown();
+            label10 = new Label();
+            label11 = new Label();
+            textBox3 = new TextBox();
+            textBox4 = new TextBox();
+            label12 = new Label();
+            label13 = new Label();
+            comboBox2 = new ComboBox();
+            button8 = new Button();
+            button9 = new Button();
+            textBox5 = new TextBox();
+            label14 = new Label();
+            listBox3 = new ListBox();
+            label15 = new Label();
             tabPage5 = new TabPage();
-            textBoxImage = new TextBox();
-            textBoxPort = new TextBox();
-            label8 = new Label();
-            label9 = new Label();
+            comboBox4 = new ComboBox();
+            comboBox3 = new ComboBox();
+            button10 = new Button();
+            label18 = new Label();
+            label19 = new Label();
+            textBox7 = new TextBox();
+            label20 = new Label();
+            label21 = new Label();
+            button11 = new Button();
+            button12 = new Button();
+            textBox8 = new TextBox();
+            label22 = new Label();
+            listBox4 = new ListBox();
+            label23 = new Label();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             tabPage2.SuspendLayout();
             tabPage3.SuspendLayout();
+            tabPage4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
+            tabPage5.SuspendLayout();
             SuspendLayout();
             // 
             // listView1
@@ -196,7 +229,7 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label3.Location = new Point(923, 54);
+            label3.Location = new Point(951, 54);
             label3.Name = "label3";
             label3.Size = new Size(170, 25);
             label3.TabIndex = 4;
@@ -244,6 +277,38 @@
             tabPage3.TabIndex = 2;
             tabPage3.Text = "Pods";
             tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Location = new Point(886, 297);
+            label9.Name = "label9";
+            label9.Size = new Size(44, 25);
+            label9.TabIndex = 22;
+            label9.Text = "Port";
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Location = new Point(868, 226);
+            label8.Name = "label8";
+            label8.Size = new Size(62, 25);
+            label8.TabIndex = 21;
+            label8.Text = "Image";
+            // 
+            // textBoxPort
+            // 
+            textBoxPort.Location = new Point(942, 294);
+            textBoxPort.Name = "textBoxPort";
+            textBoxPort.Size = new Size(248, 31);
+            textBoxPort.TabIndex = 20;
+            // 
+            // textBoxImage
+            // 
+            textBoxImage.Location = new Point(942, 223);
+            textBoxImage.Name = "textBoxImage";
+            textBoxImage.Size = new Size(248, 31);
+            textBoxImage.TabIndex = 19;
             // 
             // label7
             // 
@@ -344,7 +409,22 @@
             // 
             // tabPage4
             // 
-            tabPage4.BackgroundImage = Properties.Resources.ChatGPT_Image_8_05_2025__15_53_27;
+            tabPage4.Controls.Add(button7);
+            tabPage4.Controls.Add(label16);
+            tabPage4.Controls.Add(numericUpDown1);
+            tabPage4.Controls.Add(label10);
+            tabPage4.Controls.Add(label11);
+            tabPage4.Controls.Add(textBox3);
+            tabPage4.Controls.Add(textBox4);
+            tabPage4.Controls.Add(label12);
+            tabPage4.Controls.Add(label13);
+            tabPage4.Controls.Add(comboBox2);
+            tabPage4.Controls.Add(button8);
+            tabPage4.Controls.Add(button9);
+            tabPage4.Controls.Add(textBox5);
+            tabPage4.Controls.Add(label14);
+            tabPage4.Controls.Add(listBox3);
+            tabPage4.Controls.Add(label15);
             tabPage4.Location = new Point(4, 34);
             tabPage4.Name = "tabPage4";
             tabPage4.Size = new Size(1290, 675);
@@ -352,8 +432,167 @@
             tabPage4.Text = "Deployments";
             tabPage4.UseVisualStyleBackColor = true;
             // 
+            // button7
+            // 
+            button7.Image = (Image)resources.GetObject("button7.Image");
+            button7.Location = new Point(644, 544);
+            button7.Name = "button7";
+            button7.Size = new Size(46, 40);
+            button7.TabIndex = 39;
+            button7.UseVisualStyleBackColor = true;
+            button7.Click += button7_Click;
+            // 
+            // label16
+            // 
+            label16.AutoSize = true;
+            label16.Location = new Point(798, 357);
+            label16.Name = "label16";
+            label16.Size = new Size(167, 25);
+            label16.TabIndex = 38;
+            label16.Text = "Number of Replicas";
+            // 
+            // numericUpDown1
+            // 
+            numericUpDown1.Location = new Point(938, 355);
+            numericUpDown1.Name = "numericUpDown1";
+            numericUpDown1.Size = new Size(248, 31);
+            numericUpDown1.TabIndex = 37;
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Location = new Point(888, 287);
+            label10.Name = "label10";
+            label10.Size = new Size(44, 25);
+            label10.TabIndex = 36;
+            label10.Text = "Port";
+            // 
+            // label11
+            // 
+            label11.AutoSize = true;
+            label11.Location = new Point(870, 216);
+            label11.Name = "label11";
+            label11.Size = new Size(62, 25);
+            label11.TabIndex = 35;
+            label11.Text = "Image";
+            // 
+            // textBox3
+            // 
+            textBox3.Location = new Point(938, 284);
+            textBox3.Name = "textBox3";
+            textBox3.Size = new Size(248, 31);
+            textBox3.TabIndex = 34;
+            // 
+            // textBox4
+            // 
+            textBox4.Location = new Point(938, 213);
+            textBox4.Name = "textBox4";
+            textBox4.Size = new Size(248, 31);
+            textBox4.TabIndex = 33;
+            // 
+            // label12
+            // 
+            label12.AutoSize = true;
+            label12.Location = new Point(873, 148);
+            label12.Name = "label12";
+            label12.Size = new Size(59, 25);
+            label12.TabIndex = 32;
+            label12.Text = "Name";
+            // 
+            // label13
+            // 
+            label13.AutoSize = true;
+            label13.Location = new Point(828, 86);
+            label13.Name = "label13";
+            label13.Size = new Size(104, 25);
+            label13.TabIndex = 31;
+            label13.Text = "Namespace";
+            // 
+            // comboBox2
+            // 
+            comboBox2.FormattingEnabled = true;
+            comboBox2.Location = new Point(938, 83);
+            comboBox2.Name = "comboBox2";
+            comboBox2.Size = new Size(248, 33);
+            comboBox2.TabIndex = 30;
+            // 
+            // button8
+            // 
+            button8.BackColor = Color.DarkOrange;
+            button8.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button8.Location = new Point(644, 73);
+            button8.Name = "button8";
+            button8.Size = new Size(100, 41);
+            button8.TabIndex = 28;
+            button8.Text = "Delete";
+            button8.UseVisualStyleBackColor = false;
+            button8.Click += button8_Click;
+            // 
+            // button9
+            // 
+            button9.BackColor = Color.SkyBlue;
+            button9.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button9.Location = new Point(1010, 420);
+            button9.Name = "button9";
+            button9.Size = new Size(100, 41);
+            button9.TabIndex = 27;
+            button9.Text = "Create";
+            button9.UseVisualStyleBackColor = false;
+            button9.Click += button9_Click_1;
+            // 
+            // textBox5
+            // 
+            textBox5.Location = new Point(938, 145);
+            textBox5.Name = "textBox5";
+            textBox5.Size = new Size(248, 31);
+            textBox5.TabIndex = 26;
+            // 
+            // label14
+            // 
+            label14.AutoSize = true;
+            label14.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label14.Location = new Point(972, 39);
+            label14.Name = "label14";
+            label14.Size = new Size(176, 25);
+            label14.TabIndex = 25;
+            label14.Text = "Create Deployment";
+            // 
+            // listBox3
+            // 
+            listBox3.Font = new Font("Segoe UI", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            listBox3.FormattingEnabled = true;
+            listBox3.ItemHeight = 25;
+            listBox3.Location = new Point(52, 73);
+            listBox3.Name = "listBox3";
+            listBox3.Size = new Size(567, 529);
+            listBox3.TabIndex = 24;
+            // 
+            // label15
+            // 
+            label15.AutoSize = true;
+            label15.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label15.Location = new Point(246, 39);
+            label15.Name = "label15";
+            label15.Size = new Size(158, 25);
+            label15.TabIndex = 23;
+            label15.Text = "Deployments List";
+            // 
             // tabPage5
             // 
+            tabPage5.Controls.Add(comboBox4);
+            tabPage5.Controls.Add(comboBox3);
+            tabPage5.Controls.Add(button10);
+            tabPage5.Controls.Add(label18);
+            tabPage5.Controls.Add(label19);
+            tabPage5.Controls.Add(textBox7);
+            tabPage5.Controls.Add(label20);
+            tabPage5.Controls.Add(label21);
+            tabPage5.Controls.Add(button11);
+            tabPage5.Controls.Add(button12);
+            tabPage5.Controls.Add(textBox8);
+            tabPage5.Controls.Add(label22);
+            tabPage5.Controls.Add(listBox4);
+            tabPage5.Controls.Add(label23);
             tabPage5.Location = new Point(4, 34);
             tabPage5.Name = "tabPage5";
             tabPage5.Size = new Size(1290, 675);
@@ -361,37 +600,135 @@
             tabPage5.Text = "Services/Ingress";
             tabPage5.UseVisualStyleBackColor = true;
             // 
-            // textBoxImage
+            // comboBox4
             // 
-            textBoxImage.Location = new Point(942, 223);
-            textBoxImage.Name = "textBoxImage";
-            textBoxImage.Size = new Size(248, 31);
-            textBoxImage.TabIndex = 19;
+            comboBox4.FormattingEnabled = true;
+            comboBox4.Location = new Point(934, 222);
+            comboBox4.Name = "comboBox4";
+            comboBox4.Size = new Size(248, 33);
+            comboBox4.TabIndex = 57;
             // 
-            // textBoxPort
+            // comboBox3
             // 
-            textBoxPort.Location = new Point(942, 294);
-            textBoxPort.Name = "textBoxPort";
-            textBoxPort.Size = new Size(248, 31);
-            textBoxPort.TabIndex = 20;
+            comboBox3.FormattingEnabled = true;
+            comboBox3.Location = new Point(934, 92);
+            comboBox3.Name = "comboBox3";
+            comboBox3.Size = new Size(248, 33);
+            comboBox3.TabIndex = 56;
             // 
-            // label8
+            // button10
             // 
-            label8.AutoSize = true;
-            label8.Location = new Point(868, 226);
-            label8.Name = "label8";
-            label8.Size = new Size(62, 25);
-            label8.TabIndex = 21;
-            label8.Text = "Image";
+            button10.Image = (Image)resources.GetObject("button10.Image");
+            button10.Location = new Point(640, 553);
+            button10.Name = "button10";
+            button10.Size = new Size(46, 40);
+            button10.TabIndex = 55;
+            button10.UseVisualStyleBackColor = true;
+            button10.Click += button10_Click;
             // 
-            // label9
+            // label18
             // 
-            label9.AutoSize = true;
-            label9.Location = new Point(886, 297);
-            label9.Name = "label9";
-            label9.Size = new Size(44, 25);
-            label9.TabIndex = 22;
-            label9.Text = "Port";
+            label18.AutoSize = true;
+            label18.Location = new Point(884, 225);
+            label18.Name = "label18";
+            label18.Size = new Size(44, 25);
+            label18.TabIndex = 52;
+            label18.Text = "Port";
+            // 
+            // label19
+            // 
+            label19.AutoSize = true;
+            label19.Location = new Point(824, 296);
+            label19.Name = "label19";
+            label19.Size = new Size(104, 25);
+            label19.TabIndex = 51;
+            label19.Text = "Service Port";
+            // 
+            // textBox7
+            // 
+            textBox7.Location = new Point(934, 293);
+            textBox7.Name = "textBox7";
+            textBox7.Size = new Size(248, 31);
+            textBox7.TabIndex = 49;
+            // 
+            // label20
+            // 
+            label20.AutoSize = true;
+            label20.Location = new Point(853, 157);
+            label20.Name = "label20";
+            label20.Size = new Size(75, 25);
+            label20.TabIndex = 48;
+            label20.Text = "Domain";
+            // 
+            // label21
+            // 
+            label21.AutoSize = true;
+            label21.Location = new Point(818, 95);
+            label21.Name = "label21";
+            label21.Size = new Size(110, 25);
+            label21.TabIndex = 47;
+            label21.Text = "Deployment";
+            // 
+            // button11
+            // 
+            button11.BackColor = Color.DarkOrange;
+            button11.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button11.Location = new Point(640, 82);
+            button11.Name = "button11";
+            button11.Size = new Size(100, 41);
+            button11.TabIndex = 45;
+            button11.Text = "Delete";
+            button11.UseVisualStyleBackColor = false;
+            button11.Click += button11_Click;
+            // 
+            // button12
+            // 
+            button12.BackColor = Color.SkyBlue;
+            button12.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button12.Location = new Point(1001, 361);
+            button12.Name = "button12";
+            button12.Size = new Size(100, 41);
+            button12.TabIndex = 44;
+            button12.Text = "Create";
+            button12.UseVisualStyleBackColor = false;
+            button12.Click += button12_Click;
+            // 
+            // textBox8
+            // 
+            textBox8.Location = new Point(934, 154);
+            textBox8.Name = "textBox8";
+            textBox8.Size = new Size(248, 31);
+            textBox8.TabIndex = 43;
+            // 
+            // label22
+            // 
+            label22.AutoSize = true;
+            label22.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label22.Location = new Point(985, 48);
+            label22.Name = "label22";
+            label22.Size = new Size(133, 25);
+            label22.TabIndex = 42;
+            label22.Text = "Create Ingress";
+            // 
+            // listBox4
+            // 
+            listBox4.Font = new Font("Segoe UI", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            listBox4.FormattingEnabled = true;
+            listBox4.ItemHeight = 25;
+            listBox4.Location = new Point(48, 82);
+            listBox4.Name = "listBox4";
+            listBox4.Size = new Size(567, 529);
+            listBox4.TabIndex = 41;
+            // 
+            // label23
+            // 
+            label23.AutoSize = true;
+            label23.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label23.Location = new Point(242, 48);
+            label23.Name = "label23";
+            label23.Size = new Size(107, 25);
+            label23.TabIndex = 40;
+            label23.Text = "Ingress List";
             // 
             // Form2
             // 
@@ -408,6 +745,11 @@
             tabPage2.PerformLayout();
             tabPage3.ResumeLayout(false);
             tabPage3.PerformLayout();
+            tabPage4.ResumeLayout(false);
+            tabPage4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown1).EndInit();
+            tabPage5.ResumeLayout(false);
+            tabPage5.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -445,5 +787,35 @@
         private Label label9;
         private Label label8;
         private TextBox textBoxPort;
+        private Label label10;
+        private Label label11;
+        private TextBox textBox3;
+        private TextBox textBox4;
+        private Label label12;
+        private Label label13;
+        private ComboBox comboBox2;
+        private Button button8;
+        private Button button9;
+        private TextBox textBox5;
+        private Label label14;
+        private ListBox listBox3;
+        private Label label15;
+        private Label label16;
+        private NumericUpDown numericUpDown1;
+        private Button button7;
+        private ComboBox comboBox3;
+        private Button button10;
+        private Label label18;
+        private Label label19;
+        private TextBox textBox7;
+        private Label label20;
+        private Label label21;
+        private Button button11;
+        private Button button12;
+        private TextBox textBox8;
+        private Label label22;
+        private ListBox listBox4;
+        private Label label23;
+        private ComboBox comboBox4;
     }
 }
