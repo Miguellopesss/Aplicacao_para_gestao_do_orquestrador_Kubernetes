@@ -1,0 +1,44 @@
+{
+  "apiVersion": "apps/v1",
+  "kind": "Deployment",
+  "metadata": {
+    "name": "nginxgrafana"
+  },
+  "spec": {
+    "replicas": 1,
+    "selector": {
+      "matchLabels": {
+        "app": "nginxgrafana"
+      }
+    },
+    "template": {
+      "metadata": {
+        "labels": {
+          "app": "nginxgrafana"
+        }
+      },
+      "spec": {
+        "containers": [
+          {
+            "name": "nginx",
+            "image": "nginx",
+            "ports": [
+              {
+                "containerPort": 80
+              }
+            ]
+          },
+          {
+            "name": "grafana-grafana",
+            "image": "grafana/grafana",
+            "ports": [
+              {
+                "containerPort": 3000
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}
